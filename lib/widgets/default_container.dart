@@ -5,15 +5,24 @@ class DefaultContainer extends StatelessWidget {
   const DefaultContainer({
     Key? key,
     required this.title,
+    this.actions = const [],
     required this.body,
   }) : super(key: key);
 
   final Text title;
+  final List<Widget> actions;
   final Widget body;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Get.theme.colorScheme;
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
+    Widget leading = const SizedBox();
+    if (canPop) leading = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: const BackButton(),
+    );
 
     return Scaffold(
       body: Container(
@@ -36,13 +45,20 @@ class DefaultContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.only(left: canPop ? 0 : 24, right: 24),
                 child: DefaultTextStyle(
                   style: Get.theme.primaryTextTheme.headline4!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Color(0xCCFFFFFF),
                   ),
-                  child: title,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      leading,
+                      Expanded(child: title),
+                      ...actions,
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 24),

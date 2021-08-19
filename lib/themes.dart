@@ -158,4 +158,4 @@ TextTheme get primaryTextTheme => TextTheme(
         fontWeight: FontWeight.w400,
         letterSpacing: 1.5,
       ),
-    ).apply(bodyColor: Colors.white, displayColor: Colors.white);
+    );

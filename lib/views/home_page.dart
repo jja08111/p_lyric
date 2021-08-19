@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p_lyric/servies/melon_lyric_scraper.dart';
+import 'package:p_lyric/views/setting_page.dart';
 import 'package:p_lyric/widgets/default_container.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,6 +37,19 @@ class _HomePageState extends State<HomePage> {
 
     return DefaultContainer(
       title: const Text('PLyric'),
+      actions: [
+        PopupMenuButton<Widget>(
+          onSelected: (widget) {
+            Get.to(widget);
+          },
+          itemBuilder: (_) => [
+            PopupMenuItem(
+              value: const SettingPage(),
+              child: const Text('설정'),
+            ),
+          ],
+        ),
+      ],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,9 +62,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: TextField(
-                        style: textTheme.subtitle1!.copyWith(
-                          color: Colors.black87,
-                        ),
+                        style: textTheme.subtitle1,
                         controller: _textEditingController,
                         onSubmitted: (_) => _handleSearchButton(),
                       ),
