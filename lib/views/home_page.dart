@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Text('가사 찾기 데모'),
+            Text('Headline', style: Theme.of(context).textTheme.headline1,),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
