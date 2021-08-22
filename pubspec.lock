@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   csslib:
     dependency: transitive
     description:
@@ -95,6 +102,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.8"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   html:
     dependency: transitive
     description:
@@ -135,7 +149,7 @@ packages:
     description:
       path: "."
       ref: p-lyric-app
-      resolved-ref: "6ae7128d895013a716ccce12541d46f2ffd38105"
+      resolved-ref: "3f8a321cf62d070fe524a6c407a3a85f2b024f51"
       url: "https://github.com/jja08111/nowplaying.git"
     source: git
     version: "2.0.2"
