@@ -23,7 +23,7 @@ Worker wait<T>(
     onDone: onDone,
     cancelOnError: cancelOnError,
   );
-  return Worker(sub.cancel, '[debounce]');
+  return Worker(sub.cancel, '[wait]');
 }
 
 class _Waiter {
