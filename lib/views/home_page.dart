@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: _CardView(),
+            child: const _CardView(),
           ),
           const SizedBox(height: 22),
           Expanded(
@@ -161,57 +161,93 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _CardView extends StatelessWidget {
-  const _CardView({
-    Key? key,
-  }) : super(key: key);
+  const _CardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Get.textTheme;
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: GetBuilder<PlayingMusicProvider>(
-          init: PlayingMusicProvider(),
-          builder: (musicProvider) {
-            final track = musicProvider.track;
-            final icon = track?.image;
-            final title = track?.title ?? '재생중인 음악 없음';
-            final artist = track?.artist ?? '노래를 재생하면 가사가 업데이트됩니다.';
+      child: GetBuilder<PlayingMusicProvider>(
+        init: PlayingMusicProvider(),
+        builder: (musicProvider) {
+          final track = musicProvider.track;
+          final icon = track?.image;
+          final title = track?.title ?? '재생중인 음악 없음';
+          final artist = track?.artist ?? '노래를 재생하면 가사가 업데이트됩니다.';
 
-            return Row(
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
               children: [
-                ClipRRect(
-                  // TODO(민성): 재생 및 다음곡 버튼 구현
-                  borderRadius: BorderRadius.circular(1000.0),
-                  child: icon == null
-                      ? const SizedBox(height: 72, width: 72)
-                      : Image(image: icon, height: 72, width: 72),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(1000.0),
+                    child: icon == null
+                        ? const SizedBox(height: 88, width: 88)
+                        : Image(image: icon, height: 88, width: 88),
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 10.0),
                       Text(
                         title,
-                        style: textTheme.subtitle1!.copyWith(fontSize: 18),
+                        style: textTheme.subtitle1,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         artist,
                         style: textTheme.subtitle2!.copyWith(
-                          color: Colors.black54,
+                          color:
+                              Get.isDarkMode ? Colors.white54 : Colors.black54,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      IconTheme(
+                        data: IconThemeData(
+                          color: Get.isDarkMode ? Colors.white : Colors.black87,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              iconSize: 32,
+                              padding: EdgeInsets.zero,
+                              icon: Icon(Icons.skip_previous),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              iconSize: 40,
+                              padding: EdgeInsets.zero,
+                              // TODO: AnimatedIcon(icon: AnimatedIcons.play_pause, progress: progress)
+                              icon: Icon(Icons.play_arrow),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              iconSize: 32,
+                              padding: EdgeInsets.zero,
+                              icon: Icon(Icons.skip_next),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
