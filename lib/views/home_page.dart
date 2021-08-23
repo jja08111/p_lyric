@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                           if (title == null) return Text("검색 결과가 없습니다.");
 
                           if (musicProvider.lyric.isNotEmpty) {
+                            _scrollController.jumpTo(0.0);
                             return Text(musicProvider.lyric);
                           }
                           return Center(child: CircularProgressIndicator());
