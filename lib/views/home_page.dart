@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nowplaying/nowplaying.dart';
-import 'package:p_lyric/provider/playing_music_provider.dart';
+import 'package:p_lyric/provider/music_provider.dart';
 import 'package:p_lyric/views/setting_page.dart';
 import 'package:p_lyric/widgets/default_container.dart';
 
@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                       color: Color(0xE6FFFFFF),
                       height: 1.8,
                     ),
-                    child: GetBuilder<PlayingMusicProvider>(
-                      init: PlayingMusicProvider(),
+                    child: GetBuilder<MusicProvider>(
+                      init: MusicProvider(),
                       builder: (musicProvider) {
                         if (musicProvider.track != null) {
                           final title = musicProvider.track!.title;
@@ -169,25 +169,25 @@ class _CardView extends StatelessWidget {
     final textTheme = Get.textTheme;
 
     return Card(
-      child: GetBuilder<PlayingMusicProvider>(
-        init: PlayingMusicProvider(),
-        builder: (musicProvider) {
-          final track = musicProvider.track;
-          final icon = track?.image;
-          final title = track?.title ?? '재생중인 음악 없음';
-          final artist = track?.artist ?? '노래를 재생하면 가사가 업데이트됩니다.';
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: GetBuilder<MusicProvider>(
+          init: MusicProvider(),
+          builder: (musicProvider) {
+            final track = musicProvider.track;
+            final coverImage = track?.image;
+            final title = track?.title ?? '재생중인 음악 없음';
+            final artist = track?.artist ?? '노래를 재생하면 가사가 업데이트됩니다.';
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
+            return Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(1000.0),
-                    child: icon == null
+                    child: coverImage == null
                         ? const SizedBox(height: 88, width: 88)
-                        : Image(image: icon, height: 88, width: 88),
+                        : Image(image: coverImage, height: 88, width: 88),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -212,41 +212,96 @@ class _CardView extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      IconTheme(
-                        data: IconThemeData(
-                          color: Get.isDarkMode ? Colors.white : Colors.black87,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              iconSize: 32,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(Icons.skip_previous),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              iconSize: 40,
-                              padding: EdgeInsets.zero,
-                              // TODO: AnimatedIcon(icon: AnimatedIcons.play_pause, progress: progress)
-                              icon: Icon(Icons.play_arrow),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              iconSize: 32,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(Icons.skip_next),
-                            ),
-                          ],
-                        ),
-                      ),
+                      const _ControlBar(),
                     ],
                   ),
                 ),
               ],
-            ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _ControlBar extends StatefulWidget {
+  const _ControlBar({Key? key}) : super(key: key);
+
+  @override
+  _ControlBarState createState() => _ControlBarState();
+}
+
+class _ControlBarState extends State<_ControlBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: kThemeChangeDuration,
+      reverseDuration: kThemeChangeDuration,
+    );
+
+    _animation = CurvedAnimation(
+      parent: Tween(begin: 0.0, end: 1.0).animate(_controller),
+      curve: Curves.easeOut,
+      reverseCurve: Curves.easeOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconTheme(
+      data: IconThemeData(
+        color: Get.isDarkMode ? Colors.white : Colors.black,
+      ),
+      child: GetBuilder<MusicProvider>(
+        builder: (musicProvider) {
+          switch (musicProvider.state) {
+            case NowPlayingState.playing:
+              _controller.forward();
+              break;
+            case NowPlayingState.paused:
+            case NowPlayingState.stopped:
+              _controller.reverse();
+              break;
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: musicProvider.skipPrevious,
+                iconSize: 32,
+                padding: EdgeInsets.zero,
+                icon: Icon(Icons.skip_previous),
+              ),
+              IconButton(
+                onPressed: musicProvider.playOrPause,
+                iconSize: 40,
+                padding: EdgeInsets.zero,
+                icon: AnimatedIcon(
+                  icon: AnimatedIcons.play_pause,
+                  progress: _animation,
+                ),
+              ),
+              IconButton(
+                onPressed: musicProvider.skipNext,
+                iconSize: 32,
+                padding: EdgeInsets.zero,
+                icon: Icon(Icons.skip_next),
+              ),
+            ],
           );
         },
       ),
