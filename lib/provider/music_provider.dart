@@ -29,12 +29,13 @@ class MusicProvider extends GetxController {
 
   void _updateLyric(NowPlayingTrack track) async {
     _lyric = await MelonLyricScraper.getLyrics(
-        track.title ?? '', track.artist ?? '');
+      track.title ?? '',
+      track.artist ?? '',
+    );
     update();
   }
 
   void _listenTrackEvent(NowPlayingTrack newTrack) {
-    print(newTrack);
     bool updated = false;
     if (_track.value.title != newTrack.title) {
       _track.value = newTrack;
