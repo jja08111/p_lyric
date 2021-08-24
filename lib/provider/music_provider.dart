@@ -1,14 +1,16 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nowplaying/nowplaying.dart';
-import 'package:p_lyric/services/bugs_lyrics_scraper.dart';
-import 'package:p_lyric/widgets/default_snack_bar.dart';
+import 'package:p_lyric/services/melon_lyric_scraper.dart';
 
 import 'utils/waiter.dart';
 
 class MusicProvider extends GetxController {
+  static const _channel =
+      const MethodChannel('com.example.p_lyric/MusicProvider');
+
   /// 현재 재생되고 있는 트랙을 반환한다.
-  NowPlayingTrack get track => _track.value;
+  NowPlayingTrack? get track => _track.value;
   Rx<NowPlayingTrack> _track = NowPlayingTrack.notPlaying.obs;
 
   /// 현재 재생되고 있는 트랙의 가사를 반환한다.
@@ -16,13 +18,7 @@ class MusicProvider extends GetxController {
   String _lyric = '';
 
   /// 음악 플레이어의 상태를 반환한다.
-  NowPlayingState get trackState => _trackState;
-  NowPlayingState _trackState = NowPlayingState.stopped;
-
-  bool get areLyricsUpdating => _gettingLyricsFutures.isNotEmpty;
-
-  /// 가사를 얻고있는 [Future] 함수들의 [Set]이다.
-  Set<Future<String>> _gettingLyricsFutures = {};
+  NowPlayingState state = NowPlayingState.stopped;
 
   @override
   void onInit() {
@@ -32,15 +28,10 @@ class MusicProvider extends GetxController {
   }
 
   void _updateLyric(NowPlayingTrack track) async {
-    final gettingLyricsFuture = getLyricsFromBugs(
+    _lyric = await MelonLyricScraper.getLyrics(
       track.title ?? '',
       track.artist ?? '',
     );
-    _gettingLyricsFutures.add(gettingLyricsFuture);
-    update();
-
-    _lyric = await gettingLyricsFuture;
-    _gettingLyricsFutures.remove(gettingLyricsFuture);
     update();
   }
 
@@ -51,8 +42,8 @@ class MusicProvider extends GetxController {
       updated = true;
     }
 
-    if (newTrack.state != trackState) {
-      _trackState = newTrack.state;
+    if (newTrack.state != state) {
+      state = newTrack.state;
       updated = true;
     }
 
@@ -60,37 +51,30 @@ class MusicProvider extends GetxController {
   }
 
   /// 플레이어가 음악을 재생중인 경우 정지하며, 정지되어 있는 경우 재생한다.
-  Future<void> playOrPause() async {
+  Future<bool> playOrPause() async {
     try {
-      await NowPlaying.instance.playOrPause(); // TODO(민성): IOS 구현
+      return await _channel.invokeMethod('playOrPause'); // TODO(민성): IOS 구현
     } on PlatformException catch (e) {
-      print("Failed to play or pause music: '${e.message}'.");
-      _showErrorSnackBar();
+      print("Failed to control music: '${e.message}'.");
+      return false;
     }
   }
 
-  Future<void> skipToPrevious() async {
+  Future<bool> skipPrevious() async {
     try {
-      await NowPlaying.instance.skipToPrevious(); // TODO(민성): IOS 구현
+      return await _channel.invokeMethod('skipPrevious'); // TODO(민성): IOS 구현
     } on PlatformException catch (e) {
-      print("Failed to skip to previous music: '${e.message}'.");
-      _showErrorSnackBar();
+      print("Failed to control music: '${e.message}'.");
+      return false;
     }
   }
 
-  Future<void> skipToNext() async {
+  Future<bool> skipNext() async {
     try {
-      await NowPlaying.instance.skipToNext(); // TODO(민성): IOS 구현
+      return await _channel.invokeMethod('skipNext'); // TODO(민성): IOS 구현
     } on PlatformException catch (e) {
-      print("Failed to skip to next music: '${e.message}'.");
-      _showErrorSnackBar();
+      print("Failed to control music: '${e.message}'.");
+      return false;
     }
-  }
-
-  void _showErrorSnackBar() {
-    showSnackBar(
-      '연결된 음악 플레이어가 없습니다. 음악 플레이어에서 음악을 재생해주세요.',
-      duration: const Duration(seconds: 5),
-    );
   }
 }
