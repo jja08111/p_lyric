@@ -53,8 +53,8 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
     _inProgress = true;
     final permissionHandler = Get.find<PermissionProvider>();
 
-    await permissionHandler.requestSystemOverlayPermission();
     permissionHandler.requestNotificationAccessPermission();
+    await permissionHandler.requestSystemOverlayPermission();
   }
 
   @override
@@ -81,12 +81,12 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
             ),
             const SizedBox(height: 8.0),
             Text(
-              '•다른 앱 위에 표시: 가사 창을 다른 앱 위에 띄우기 위해 필요합니다.',
+              '•알림 접근 허용: 현재 재생중인 음악 정보를 얻기 위해 필요합니다.',
               style: bodyStyle,
             ),
             const SizedBox(height: 8.0),
             Text(
-              '•알림 접근 허용: 현재 재생중인 음악 정보를 얻기 위해 필요합니다.',
+              '•다른 앱 위에 표시: 가사 창을 다른 앱 위에 띄우기 위해 필요합니다.',
               style: bodyStyle,
             ),
             const SizedBox(height: 16.0),
