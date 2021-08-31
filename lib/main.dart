@@ -8,6 +8,8 @@ import 'package:p_lyric/views/home_page.dart';
 void main() async {
   NowPlaying.instance.start();
 
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 

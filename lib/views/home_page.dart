@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(child: const SubTitle('가사')),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: (){},
                   tooltip: '작은 창으로 전환',
                   icon: Icon(Icons.close_fullscreen),
                 ),
