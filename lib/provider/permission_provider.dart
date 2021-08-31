@@ -32,15 +32,15 @@ class PermissionProvider {
   }
 
   Future<bool> hasSystemOverlayPermission() async {
-    return await Permission.systemAlertWindow.isGranted;
+    return Permission.systemAlertWindow.isGranted;
   }
 
   Future<bool> hasNotificationAccessPermission() async {
-    return await NowPlaying.instance.isEnabled();
+    return NowPlaying.instance.isEnabled();
   }
 
   Future<PermissionStatus> requestSystemOverlayPermission() async {
-    return await Permission.systemAlertWindow.request();
+    return Permission.systemAlertWindow.request();
   }
 
   // nowPlaying 플러그인이 권한 요구 창을 성공적으로 띄웠을 때 바로 값을 반환하기 때문에 반환값이
