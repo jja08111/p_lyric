@@ -85,10 +85,19 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: const _CardView(),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
-            child: const SubTitle('가사'),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Row(
+              children: [
+                Expanded(child: const SubTitle('가사')),
+                IconButton(
+                  onPressed: () {},
+                  tooltip: '작은 창으로 전환',
+                  icon: Icon(Icons.close_fullscreen),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
