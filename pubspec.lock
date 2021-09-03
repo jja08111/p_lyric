@@ -147,7 +147,7 @@ packages:
     description:
       path: "."
       ref: p-lyric-app
-      resolved-ref: "6ae7128d895013a716ccce12541d46f2ffd38105"
+      resolved-ref: "14786a05ddd4a21b67a9c50066e180aee565b89b"
       url: "https://github.com/jja08111/nowplaying.git"
     source: git
     version: "2.0.2"
@@ -171,7 +171,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   path_provider_linux:
     dependency: transitive
     description:

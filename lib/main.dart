@@ -5,8 +5,10 @@ import 'package:p_lyric/style/color.dart';
 import 'package:p_lyric/style/font.dart';
 import 'package:p_lyric/views/home_page.dart';
 
+import 'services/bugs_lyrics_scraper.dart';
+
 void main() async {
-  NowPlaying.instance.start();
+  NowPlaying.instance.start(getLyricsFromBugs);
 
   WidgetsFlutterBinding.ensureInitialized();
 

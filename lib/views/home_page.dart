@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   static const double _scrollTolerance = 4.0;
 
   final ScrollController _scrollController = ScrollController();
@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+
     _scrollController.addListener(_updateScrollButton);
 
     Get.put(PermissionProvider());
@@ -33,7 +35,22 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _scrollController.dispose();
+
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        Get.find<MusicProvider>().enableLyricsUpdating = true;
+        break;
+      case AppLifecycleState.paused:
+        Get.find<MusicProvider>().enableLyricsUpdating = false;
+        break;
+      default:
+    }
   }
 
   void _updateScrollButton() {
@@ -92,9 +109,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(child: const SubTitle('가사')),
                 IconButton(
-                  onPressed: (){},
+                  onPressed: NowPlaying.instance.startWindowService,
                   tooltip: '작은 창으로 전환',
-                  icon: Icon(Icons.close_fullscreen),
+                  icon: Icon(Icons.fullscreen_exit),
                 ),
               ],
             ),
