@@ -42,6 +42,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
         <service
             android:name="com.gomes.nowplaying.NowPlayingListenerService"
             android:label="PLyric"
@@ -56,5 +57,8 @@
             android:permission="android.permission.FOREGROUND_SERVICE"
             android:enabled="true"
             android:exported="false" />
+        <receiver android:name="com.gomes.nowplaying.FloatingWindowService$CancelActionReceiver" />
+        <receiver android:name="com.gomes.nowplaying.FloatingWindowService$CreateOrRemoveActionReceiver" />
+
     </application>
 </manifest>
