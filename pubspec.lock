@@ -147,7 +147,7 @@ packages:
     description:
       path: "."
       ref: p-lyric-app
-      resolved-ref: "5464c83ca77e57f7e5a125bd012dd62d9e3e791b"
+      resolved-ref: b76a4b461a2cedca40e4f74315896bc657bb7d86
       url: "https://github.com/jja08111/nowplaying.git"
     source: git
     version: "2.0.2"

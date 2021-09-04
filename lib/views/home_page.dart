@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nowplaying/nowplaying.dart';
 import 'package:p_lyric/provider/music_provider.dart';
@@ -68,6 +69,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         _scrollController.position.maxScrollExtent == 0.0 ? false : true;
   }
 
+  /// 축소 버튼을 눌렀을 때 앱을 종료하고 윈도우 오버레이를 띄운다.
+  void _handleCollapseButtonTap() async {
+    await NowPlaying.instance.startWindowService();
+    SystemNavigator.pop();
+  }
+
   void _handleScrollButtonTap({bool toBottom = true}) {
     _scrollController.animateTo(
       toBottom ? _scrollController.position.maxScrollExtent : 0.0,
@@ -109,7 +116,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               children: [
                 Expanded(child: const SubTitle('가사')),
                 IconButton(
-                  onPressed: NowPlaying.instance.startWindowService,
+                  onPressed: _handleCollapseButtonTap,
                   tooltip: '작은 창으로 전환',
                   icon: Icon(Icons.fullscreen_exit),
                 ),
