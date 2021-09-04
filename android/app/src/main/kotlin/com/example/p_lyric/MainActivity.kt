@@ -24,7 +24,7 @@ class MainActivity : FlutterActivity() {
         super.onPause()
         setAppVisibleKey(false)
 
-        FloatingWindowService.startFloatingService(flutterEngine!!.dartExecutor.binaryMessenger, this)
+        FloatingWindowService.startFloatingService(this, true)
     }
 
     private fun setAppVisibleKey(state: Boolean) {

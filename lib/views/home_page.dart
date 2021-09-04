@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nowplaying/nowplaying.dart';
 import 'package:p_lyric/provider/music_provider.dart';
@@ -7,6 +6,7 @@ import 'package:p_lyric/provider/permission_provider.dart';
 import 'package:p_lyric/views/setting_page.dart';
 import 'package:p_lyric/widgets/default_container.dart';
 import 'package:p_lyric/widgets/subtitle.dart';
+import 'package:system_shortcuts/system_shortcuts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -71,8 +71,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   /// 축소 버튼을 눌렀을 때 앱을 종료하고 윈도우 오버레이를 띄운다.
   void _handleCollapseButtonTap() async {
-    await NowPlaying.instance.startWindowService();
-    SystemNavigator.pop();
+    await SystemShortcuts.home();
   }
 
   void _handleScrollButtonTap({bool toBottom = true}) {
