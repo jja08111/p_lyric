@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionProvider {
-  static const String _alreadyRequestedKey = 'permission.alreadyRequested';
+  static const String alreadyRequestedKey = 'permission.alreadyRequested';
 
   PermissionProvider() {
     _initialize();
@@ -13,12 +13,11 @@ class PermissionProvider {
 
   void _initialize() async {
     final prefs = await SharedPreferences.getInstance();
-    final alreadyRequested = prefs.getBool(_alreadyRequestedKey) ?? false;
+    final alreadyRequested = prefs.getBool(alreadyRequestedKey) ?? false;
     final hasSystemOverlay = await hasSystemOverlayPermission();
     final hasNotificationAccess = await hasNotificationAccessPermission();
 
     if (!alreadyRequested && (!hasSystemOverlay || !hasNotificationAccess)) {
-      await prefs.setBool(_alreadyRequestedKey, true);
       await Get.bottomSheet(
         const PermissionBottomSheet(),
         isDismissible: false,

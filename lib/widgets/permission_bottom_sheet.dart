@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p_lyric/provider/permission_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'default_bottom_sheet.dart';
 import 'default_snack_bar.dart';
@@ -34,6 +35,7 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
       case AppLifecycleState.resumed:
         if (_inProgress) {
           if (await Get.find<PermissionProvider>().haveAllPermissions()) {
+            await _setSharedPrefsTrue();
             Get.back();
             showSnackBar('권한 허용됨');
           }
@@ -44,7 +46,13 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
     }
   }
 
+  Future<void> _setSharedPrefsTrue() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PermissionProvider.alreadyRequestedKey, true);
+  }
+  
   void _onPressedSkip() async {
+    await _setSharedPrefsTrue();
     Get.back();
     showSnackBar('설정에서 권한을 설정할 수 있습니다.');
   }
