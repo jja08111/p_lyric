@@ -317,6 +317,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  system_shortcuts:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: p-lyric-app
+      resolved-ref: ca0588c2b1d447b7a9fdb22ba63beee4aa788914
+      url: "https://github.com/jja08111/SystemShortcutsFlutter.git"
+    source: git
+    version: "1.0.0"
   term_glyph:
     dependency: transitive
     description:
