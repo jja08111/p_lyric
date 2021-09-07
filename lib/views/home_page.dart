@@ -6,8 +6,8 @@ import 'package:p_lyric/provider/music_provider.dart';
 import 'package:p_lyric/provider/permission_provider.dart';
 import 'package:p_lyric/views/setting_page.dart';
 import 'package:p_lyric/widgets/default_container.dart';
+import 'package:p_lyric/widgets/default_snack_bar.dart';
 import 'package:p_lyric/widgets/subtitle.dart';
-import 'package:system_shortcuts/system_shortcuts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
