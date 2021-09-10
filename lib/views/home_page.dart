@@ -73,16 +73,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   /// 축소 버튼을 눌렀을 때 앱을 종료하고 윈도우 오버레이를 띄운다.
   void _handleCollapseButtonTap() async {
     bool success = false;
+    String? errorMessage;
     try {
       success = await NowPlaying.instance.showFloatingWindow();
-    } catch (e) {
+    } on PlatformException catch (e) {
       print(e);
+      errorMessage = e.message ?? '';
     }
 
     if (success) {
       SystemNavigator.pop();
     } else {
-      showSnackBar("윈도우 전환에 실패했습니다.");
+      showSnackBar(errorMessage != null ? errorMessage : "윈도우 전환에 실패했습니다.");
     }
   }
 
