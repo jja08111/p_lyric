@@ -13,36 +13,25 @@ class PermissionBottomSheet extends StatefulWidget {
   _PermissionBottomSheetState createState() => _PermissionBottomSheetState();
 }
 
-class _PermissionBottomSheetState extends State<PermissionBottomSheet>
-    with WidgetsBindingObserver {
-  bool _inProgress = false;
-
+class _PermissionBottomSheetState extends State<PermissionBottomSheet> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    Get.find<PermissionProvider>()
+        .addListener(_permissionListener, doRefresh: false);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    Get.find<PermissionProvider>().removeListener(_permissionListener);
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        if (_inProgress) {
-          if (await Get.find<PermissionProvider>().haveAllPermissions()) {
-            await _setSharedPrefsTrue();
-            Get.back();
-            showSnackBar('권한 허용됨');
-          }
-          _inProgress = false;
-        }
-        break;
-      default:
+  void _permissionListener() async {
+    if (Get.find<PermissionProvider>().hasAll) {
+      await _setSharedPrefsTrue();
+      Get.back();
+      showSnackBar('권한 허용됨');
     }
   }
 
@@ -50,7 +39,7 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PermissionProvider.alreadyRequestedKey, true);
   }
-  
+
   void _onPressedSkip() async {
     await _setSharedPrefsTrue();
     Get.back();
@@ -58,11 +47,10 @@ class _PermissionBottomSheetState extends State<PermissionBottomSheet>
   }
 
   void _onPressedOk() async {
-    _inProgress = true;
     final permissionHandler = Get.find<PermissionProvider>();
 
-    permissionHandler.requestNotificationAccessPermission();
-    await permissionHandler.requestSystemOverlayPermission();
+    permissionHandler.requestNotificationAccess();
+    await permissionHandler.requestSystemOverlayWindow();
   }
 
   @override
