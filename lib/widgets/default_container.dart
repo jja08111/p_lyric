@@ -54,7 +54,7 @@ class DefaultContainer extends StatelessWidget {
                 padding: EdgeInsets.only(left: canPop ? 0 : 24, right: 24),
                 child: DefaultTextStyle(
                   style: Get.theme.primaryTextTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     color: Color(0xCCFFFFFF),
                   ),
                   child: Row(
