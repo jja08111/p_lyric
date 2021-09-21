@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
     const cardTheme = const CardTheme(
       color: const Color(0xd6ffffff),
       shape: cardShape,
+      shadowColor: Colors.black54,
+      elevation: 6.0,
     );
 
     return GetMaterialApp(
