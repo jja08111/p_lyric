@@ -25,7 +25,13 @@ class DefaultContainer extends StatelessWidget {
     Widget leading = const SizedBox();
     if (canPop) leading = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: const BackButton(),
+      child: IconButton(
+        icon: const _BackButtonIcon(),
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+        onPressed: () {
+          Navigator.maybePop(context);
+        },
+      ),
     );
 
     return Scaffold(
@@ -75,4 +81,27 @@ class DefaultContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+class _BackButtonIcon extends StatelessWidget {
+  /// Creates an icon that shows the appropriate "back" image for
+  /// the current platform (as obtained from the [Theme]).
+  const _BackButtonIcon({ Key? key }) : super(key: key);
+
+  /// Returns the appropriate "back" icon for the given `platform`.
+  static IconData _getIconData(TargetPlatform platform) {
+    switch (platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return Icons.arrow_back_rounded;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return Icons.arrow_back_ios_rounded;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Icon(_getIconData(Theme.of(context).platform));
 }
