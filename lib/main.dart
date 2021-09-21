@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       borderRadius: const BorderRadius.all(const Radius.circular(12.0)),
     );
     const cardTheme = const CardTheme(
-      color: const Color(0xd6ffffff),
       shape: cardShape,
       shadowColor: Colors.black54,
       elevation: 6.0,
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
           bodyColor: Colors.black87,
           displayColor: Colors.black87,
         ),
-        cardTheme: cardTheme,
+        cardTheme: cardTheme.copyWith(color: const Color(0xd6ffffff)),
         popupMenuTheme: PopupMenuThemeData(
           shape: cardShape,
           color: Colors.white,
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
           bodyColor: Colors.white,
           displayColor: Colors.white,
         ),
-        cardTheme: cardTheme,
+        cardTheme: cardTheme.copyWith(color: const Color(0xd6121212)),
         popupMenuTheme: PopupMenuThemeData(
           shape: cardShape,
           color: const Color(0xff121212),
