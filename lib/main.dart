@@ -18,7 +18,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const iconThemeData = const IconThemeData(color: Colors.white70);
+    const iconThemeData = const IconThemeData(color: Colors.white54);
     final themeData = ThemeData(
       iconTheme: iconThemeData,
       primaryTextTheme: poppinsTextTheme.apply(fontFamily: FontFamily.poppins),
