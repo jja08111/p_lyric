@@ -36,12 +36,12 @@ class DefaultContainer extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               colorScheme.primary,
-              const Color(0xFF8C6988),
-              const Color(0xFF5A5172),
+              const Color(0xFF8E6A86),
+              const Color(0xFF55506E),
             ],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(0.0, 1.0),
-            stops: [0.0, 0.66, 1.0],
+            stops: [0.18, 0.7, 0.9],
             tileMode: TileMode.clamp,
           ),
         ),
