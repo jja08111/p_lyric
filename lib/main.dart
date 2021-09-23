@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.black87,
         ),
         cardTheme: cardTheme.copyWith(color: const Color(0xd6ffffff)),
-        popupMenuTheme: PopupMenuThemeData(
+        popupMenuTheme: const PopupMenuThemeData(
           shape: cardShape,
           color: Colors.white,
         ),
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.white,
         ),
         cardTheme: cardTheme.copyWith(color: const Color(0xd6121212)),
-        popupMenuTheme: PopupMenuThemeData(
+        popupMenuTheme: const PopupMenuThemeData(
           shape: cardShape,
           color: const Color(0xff121212),
         ),
