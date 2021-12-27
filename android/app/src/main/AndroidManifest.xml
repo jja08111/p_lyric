@@ -44,6 +44,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7959757131964580~5041261507"/>
+
         <service
             android:name="com.gomes.nowplaying.NowPlayingListenerService"
             android:label="PLyric"
