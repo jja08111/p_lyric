@@ -11,7 +11,7 @@
 ## 변경사항
 
 ### 1.0.0+2
-- 광고 임시 성능 향상 (#80)[https://github.com/Foundy-LLC/p_lyric/pull/80]
+- 광고 임시 성능 향상 [#80](https://github.com/Foundy-LLC/p_lyric/pull/80)
 
 ### 1.0.0+1
 
