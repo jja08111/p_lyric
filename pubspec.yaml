@@ -32,6 +32,7 @@ dependencies:
       ref: p-lyric-app
   shared_preferences: ^2.0.8
   permission_handler: ^8.1.6
+  # TODO: 임시 해결책이 아닌 안정된 버전으로 수정하기
   google_mobile_ads:
     git:
       url: https://github.com/SuaMusica/googleads-mobile-flutter.git
