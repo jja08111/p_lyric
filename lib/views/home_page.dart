@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     final textTheme = Get.textTheme;
 
     return DefaultContainer(
+      hasBannerAd: true,
       title: const Text('PLyric'),
       actions: [
         PopupMenuButton<Widget>(
