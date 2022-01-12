@@ -24,6 +24,14 @@ class MusicProvider extends GetxController {
   /// 가사를 얻고있는 [Future] 함수들의 [Set]이다.
   Set<Future<String>> _gettingLyricsFutures = {};
 
+  bool get enableLyricsUpdating => _enableLyricsUpdating;
+  set enableLyricsUpdating(bool state) {
+    _enableLyricsUpdating = state;
+    if (_track.value.artist?.isNotEmpty ?? false) _updateLyric(_track.value);
+  }
+
+  bool _enableLyricsUpdating = true;
+
   @override
   void onInit() {
     super.onInit();
@@ -32,6 +40,8 @@ class MusicProvider extends GetxController {
   }
 
   void _updateLyric(NowPlayingTrack track) async {
+    if (!_enableLyricsUpdating) return;
+
     final gettingLyricsFuture = getLyricsFromBugs(
       track.title ?? '',
       track.artist ?? '',

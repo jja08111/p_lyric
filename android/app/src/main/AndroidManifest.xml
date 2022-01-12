@@ -1,10 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.p_lyric">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    
+    package="com.foundy.p_lyric">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="p_lyric"
+        android:label="PLyric"
         android:allowBackup="false">
         <activity
             android:name=".MainActivity"
@@ -39,6 +43,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1985155061746313~2925260289"/>
+
         <service
             android:name="com.gomes.nowplaying.NowPlayingListenerService"
             android:label="PLyric"
@@ -48,5 +57,13 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service
+            android:name="com.gomes.nowplaying.FloatingWindowService"
+            android:permission="android.permission.FOREGROUND_SERVICE"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver android:name="com.gomes.nowplaying.FloatingWindowService$CancelActionReceiver" />
+        <receiver android:name="com.gomes.nowplaying.FloatingWindowService$CreateOrRemoveActionReceiver" />
+
     </application>
 </manifest>
